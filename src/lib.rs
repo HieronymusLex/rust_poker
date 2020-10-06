@@ -1,7 +1,7 @@
 #![feature(test)]
 
 /// # Rust Poker
-/// A poker library
+/// A texas holdem poker library
 ///
 /// Currently supports
 ///  - monte carlo range vs. range equity calculations
@@ -12,7 +12,7 @@
 /// ```
 /// use rust_poker::hand_range::{HandRange, get_card_mask};
 /// use rust_poker::equity_calculator::calc_equity;
-/// let ranges = HandRange::from_strings(["AK,22+".to_string(), "random".to_string()].to_vec());
+/// let ranges = HandRange::from_strings(["AK,22+".to_string(), "AA,KK,QQ@50".to_string()].to_vec());
 /// let public_cards = get_card_mask("2h3d4c");
 /// let n_games = 10000;
 /// let n_threads = 4;
@@ -30,16 +30,23 @@
 
 #[macro_use]
 extern crate lazy_static;
-extern crate test;
-extern crate rand;
 extern crate crossbeam;
+extern crate rand;
+extern crate serde_json;
+extern crate serde;
+extern crate test;
+// extern crate rust_embed;
 
-mod hand_indexer;
+#[cfg(all(feature = "indexer"))]
+extern crate hand_indexer;
+#[cfg(all(feature = "indexer"))]
+pub use hand_indexer::{HandIndex, HandIndexer};
 
-pub use hand_indexer::hand_indexer_s;
+pub use read_write;
 
-pub mod hand_range;
 pub mod constants;
 pub mod hand_evaluator;
+pub mod hand_range;
+pub mod range_filter;
 
 pub mod equity_calculator;

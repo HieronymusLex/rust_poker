@@ -1,5 +1,3 @@
-extern crate bytepack;
-
 mod hand;
 mod evaluator;
 
